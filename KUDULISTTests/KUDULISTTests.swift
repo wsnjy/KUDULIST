@@ -18,11 +18,13 @@ class KUDULISTTests: XCTestCase {
         view = MainController()
         presenter = MainPresenter()
         presenter?.view = view
+        
+        let list = List(id: 0, toDo: "1", isDone: false)
+        presenter?.lists = [list]
     }
 
     func testNumberOfListWhenNewListIsNotEmpty() {
         // Arrange
-        presenter?.lists = ["1"]
         let expected = (presenter?.lists.count)! + 1
         
         // Act
@@ -34,7 +36,6 @@ class KUDULISTTests: XCTestCase {
     
     func testNumberOfListWhenNewListIsEmpty() {
         // Arrange
-        presenter?.lists = ["1"]
         let expected = (presenter?.lists.count)! + 1
         
         // Act
@@ -43,6 +44,17 @@ class KUDULISTTests: XCTestCase {
         // Assert
         XCTAssertNotEqual(view?.tableView.numberOfRows(inSection: 0), expected)
 
+    }
+    
+    func testNewValueIsDoneWhenListChecked() {
+        // Arrange
+        let expected = true
+        
+        // Act
+        _ = presenter?.modifyList(0)
+        
+        // Assert
+        XCTAssertEqual(presenter?.lists[0].isDone, expected)
     }
     
     override func tearDown() {

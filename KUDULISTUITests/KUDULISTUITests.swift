@@ -8,6 +8,8 @@
 
 import XCTest
 
+private let tableIdentifier = "tableToDoList"
+
 class KUDULISTUITests: XCTestCase {
 
     var app = XCUIApplication()
@@ -15,7 +17,6 @@ class KUDULISTUITests: XCTestCase {
     override func setUp() {
     
         continueAfterFailure = false
-
         app = XCUIApplication()
         app.launchArguments = ["-uitesting"]
 
@@ -42,7 +43,12 @@ class KUDULISTUITests: XCTestCase {
         app.alerts["What to do?"].textFields.firstMatch.typeText("TIGAAAAAA")
         app.alerts["What to do?"].buttons["Add"].tap()
 
+        testCheckedIndexOne()
 
+    }
+    
+    func testCheckedIndexOne() {
+        app.tables[tableIdentifier].cells.firstMatch.buttons.firstMatch.tap()
     }
     
     func testAddAlertCancel() {
