@@ -11,24 +11,42 @@ import XCTest
 
 class KUDULISTTests: XCTestCase {
 
+    var presenter:MainPresenter?
+    var view:MainController?
+    
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        view = MainController()
+        presenter = MainPresenter()
+        presenter?.view = view
     }
 
+    func testNumberOfListWhenNewListIsNotEmpty() {
+        // Arrange
+        presenter?.lists = ["1"]
+        let expected = (presenter?.lists.count)! + 1
+        
+        // Act
+        presenter?.receiveNewList("2")
+        
+        // Assert
+        XCTAssertEqual(view?.tableView.numberOfRows(inSection: 0), expected)
+    }
+    
+    func testNumberOfListWhenNewListIsEmpty() {
+        // Arrange
+        presenter?.lists = ["1"]
+        let expected = (presenter?.lists.count)! + 1
+        
+        // Act
+        presenter?.receiveNewList("")
+
+        // Assert
+        XCTAssertNotEqual(view?.tableView.numberOfRows(inSection: 0), expected)
+
+    }
+    
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
     }
 
 }
